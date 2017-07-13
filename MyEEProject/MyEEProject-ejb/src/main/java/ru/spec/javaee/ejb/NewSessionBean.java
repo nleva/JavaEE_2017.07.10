@@ -5,20 +5,19 @@
 package ru.spec.javaee.ejb;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
+import ru.spec.javaee.aop.LogTimeInterceptor;
+
 import javax.ejb.LocalBean;
 
-/**
- *
- * @author martin
- */
 @Stateless
 @LocalBean
 public class NewSessionBean {
 
-    public void businessMethod() {
-    }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
+	@Interceptors(LogTimeInterceptor.class)
+//	@LogTime
+	public String echo(String msg) {
+		return "re:" + msg;
+	}
 }
