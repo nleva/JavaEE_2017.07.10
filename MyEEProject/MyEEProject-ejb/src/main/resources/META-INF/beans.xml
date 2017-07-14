@@ -7,6 +7,6 @@
  	<interceptors>
  		<class>ru.spec.javaee.aop.LogTimeInterceptor</class>
  	</interceptors>
- 
+
  </beans>
  

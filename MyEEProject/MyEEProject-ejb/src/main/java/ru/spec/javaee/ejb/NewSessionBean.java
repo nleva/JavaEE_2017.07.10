@@ -9,8 +9,11 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import ru.spec.javaee.aop.InfoString;
 import ru.spec.javaee.aop.LogTime;
 
 @Stateless(mappedName = "echo")
@@ -18,15 +21,17 @@ import ru.spec.javaee.aop.LogTime;
 public class NewSessionBean implements EchoService {
 	
 	@Inject
+	@InfoString
+	@Named("bus")
 	Event<UserDto> bus;
 
 	@LogTime
-	public void processUser(@Observes UserDto user) {
+	public void processUser(@InfoString @Observes Object user) {
 
 	}
 
 	@LogTime
-	public void checkUser(@Observes(during = TransactionPhase.BEFORE_COMPLETION) UserDto user) {
+	public void checkUser(@Named("bus") @Observes(during = TransactionPhase.BEFORE_COMPLETION) UserDto user) {
 
 	}
 
@@ -35,6 +40,8 @@ public class NewSessionBean implements EchoService {
 	public String echo(String msg) {
 		UserDto userDto = new UserDto();
 		bus.fire(userDto);
+		
+//		CDI.current().select(InfoString.class)
 		// processUser(userDto);
 		// checkUser(userDto);
 		return "re:" + msg;
