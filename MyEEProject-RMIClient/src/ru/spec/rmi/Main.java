@@ -1,16 +1,38 @@
 package ru.spec.rmi;
 
+import java.util.Scanner;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import ru.spec.javaee.ejb.CheckListService;
+import ru.spec.javaee.ejb.CheckListServiceRemote;
 import ru.spec.javaee.ejb.EchoService;
 import ru.spec.javaee.ejb.MyWizardRemote;
+import ru.spec.javaee.entity.CheckList;
 
 public class Main {
 
 	public static void main(String[] args) throws NamingException {
 		Context ctx = new InitialContext();
+		
+		CheckListServiceRemote cl 
+			= (CheckListServiceRemote) ctx.lookup("CheckListService");
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("enter item name:");
+		String itemName = scan.nextLine();
+		
+		CheckList newItem = cl.createCheckList(itemName);
+		System.out.println(newItem.getId());
+		
+		cl.getCheckLists().forEach(element -> System.out.println(element.getText()));
+//		interceptors(ctx);
+
+	}
+
+	private static void wizard(Context ctx) throws NamingException {
 		MyWizardRemote wizard = (MyWizardRemote)ctx.lookup("wizard");
 //		MyWizardRemote wizard2 = (MyWizardRemote)ctx.lookup("wizard");
 
@@ -22,9 +44,6 @@ public class Main {
 		wizard.log();
 		System.out.println(wizard.get());
 //		System.out.println(wizard2.get());
-		
-//		interceptors(ctx);
-
 	}
 
 	private static void interceptors(Context ctx) throws NamingException {
