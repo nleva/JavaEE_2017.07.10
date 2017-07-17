@@ -21,11 +21,14 @@ public class Main {
 			= (CheckListServiceRemote) ctx.lookup("CheckListService");
 		
 		Scanner scan = new Scanner(System.in);
-		System.out.println("enter item name:");
+		System.out.println("enter option name:");
 		String itemName = scan.nextLine();
 		
-		CheckList newItem = cl.createCheckList(itemName);
-		System.out.println(newItem.getId());
+//		CheckList newItem = cl.createCheckList(itemName);
+//		System.out.println(newItem.getId());
+		
+		cl.createOption(itemName, 7L);
+		
 		
 		cl.getCheckLists().forEach(element -> System.out.println(element.getText()));
 //		interceptors(ctx);

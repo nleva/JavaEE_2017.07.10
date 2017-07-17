@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="Option")
+@Table(name="`Option`")
 @NamedQuery(name="Option.findAll", query="SELECT o FROM Option o")
 public class Option implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +22,7 @@ public class Option implements Serializable {
 	@Column(unique=true, nullable=false, name="id")
 	private Long id;
 
-	@Column(nullable=false)
+	
 	private Timestamp created;
 
 	private Timestamp deleted;

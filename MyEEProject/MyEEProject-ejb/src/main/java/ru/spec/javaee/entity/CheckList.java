@@ -2,29 +2,33 @@ package ru.spec.javaee.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The persistent class for the CheckList database table.
  * 
  */
 @Entity
-@Table(name="CheckList")
-@NamedQuery(name="CheckList.findAll", query="SELECT c FROM CheckList c")
+@Table(name = "`CheckList`")
+@NamedQuery(name = "CheckList.findAll", query = "SELECT c FROM CheckList c")
 public class CheckList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private Long id;
 
-	@Column(nullable=false, length=1024)
+	@Column(name = "`text`", nullable = false, length = 1024)
 	private String text;
 
-	//bi-directional many-to-one association to Option
-	@OneToMany(mappedBy="checkList", cascade={CascadeType.ALL})
+	// @Column(name="`desc`",nullable=true, length=4096)
+	// private String desc;
+
+	// bi-directional many-to-one association to Option
+	@OneToMany(mappedBy = "checkList", cascade = { CascadeType.ALL })
 	private List<Option> options;
 
 	public CheckList() {
@@ -47,7 +51,8 @@ public class CheckList implements Serializable {
 	}
 
 	public List<Option> getOptions() {
-		return this.options;
+		return this.options == null ? 
+				(this.options = new ArrayList<>()) : this.options;
 	}
 
 	public void setOptions(List<Option> options) {
