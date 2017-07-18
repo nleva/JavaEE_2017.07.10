@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="C:/glassfish-4.1.2/glassfish4/glassfish/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="C:/glassfish-4.1.2/glassfish4/glassfish/lib/jndi-properties.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MyEEProject-ejb"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MyEEProject-dao"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

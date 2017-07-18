@@ -14,6 +14,8 @@
 	<modules>
 		<module>MyEEProject-ear</module>
 		<module>MyEEProject-ejb</module>
+		<module>MyEEProject-dao</module>
+		<module>MyEEProject-web</module>
 	</modules>
 
 </project>

@@ -1,14 +1,18 @@
 package ru.spec.javaee.ejb;
 
-import java.sql.Timestamp;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.ejb.LocalBean;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import ru.spec.javaee.entity.CheckList;
 import ru.spec.javaee.entity.Option;
@@ -20,8 +24,17 @@ import ru.spec.javaee.entity.Option;
 @LocalBean
 public class CheckListService implements CheckListServiceRemote {
 
-	@PersistenceContext
+	@Inject
 	EntityManager em;
+	
+	@Inject
+	Logger log;
+	
+	@Inject
+	CheckListService self;
+	
+	@Resource
+	SessionContext ctx;
 	
 	@Override
 	public List<CheckList> getCheckLists(/*Long id*/) {
@@ -53,9 +66,17 @@ public class CheckListService implements CheckListServiceRemote {
 	}
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Option createOption(String text, Long checkListId) {
 		
 		CheckList cl = em.find(CheckList.class, checkListId);
+		
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			ctx.setRollbackOnly();
+		}
 		
 		return createOption(text, cl);
 	}
@@ -74,6 +95,9 @@ public class CheckListService implements CheckListServiceRemote {
 	}
 	
 	public List<Option> createOptions(Long cl, String...text ) {
+		for (String string : text) {
+			self.createOption(string, cl);
+		}
 		return null;
 	}
 
